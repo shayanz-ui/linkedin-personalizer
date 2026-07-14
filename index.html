@@ -128,8 +128,8 @@
   </div>
   <div class="field">
     <label for="snippet">What you noticed</label>
-    <textarea id="snippet" placeholder="Paste their recent post, a repost, their About line, a comment — whatever caught your eye. Doesn't need to be cleaned up."></textarea>
-    <p class="hint">The more specific the paste, the sharper the hook. A vague "posts about fintech" gets you a vague message back.</p>
+    <textarea id="snippet" placeholder="Paste their recent post, article, About section, or a comment — pick the thing with an actual point of view, not just whatever's most recent."></textarea>
+    <p class="hint">Pick substance over cadence. A throwaway or joke post gives the model nothing real to connect to their company — an article, opinion piece, or a specific claim in their About section works much better.</p>
   </div>
   <button class="go" id="goBtn">
     <span class="dot"></span>
@@ -151,7 +151,7 @@
     </div>
   </div>
   <footer>
-    first three or four words are what shows before the click — that's the whole game.<br>
+    the bridge sentence is what makes the question make sense — no bridge, no message.<br>
     your API key stays in this tab only. nothing here is stored on any server.
   </footer>
 </div>
@@ -198,6 +198,8 @@ The message has three parts, and each one has to earn the next one:
 
 Test before finalizing: read parts 1 and 3 without part 2. If the question feels random or generic without the bridge, the bridge isn't doing its job — rewrite it to be more specific, don't cut it.
 
+If the pasted content is a joke, a throwaway personal post, or has no real substance to connect to their company, do NOT force a business angle onto it — that reads as tone-deaf or transparently opportunistic. Instead say so plainly in your output by writing exactly: SKIP: the pasted content doesn't give enough to build a real bridge from — try a different post, article, or their About section.
+
 Tone: casual, like texting someone you follow, not a rep working a sequence. Flat and understated, not enthusiastic. No emoji, no exclamation points, no em dashes.
 
 Banned words: resonate, excited, thrilled, love, insightful, great point, curious to hear, would love, thoughts. Do not compliment the post itself ("good post," "nice take") — react to its substance instead.
@@ -208,8 +210,7 @@ Reference example — study why this one works, not just its words:
 "hey Vamsi, your profit ≠ cash post was a good read. feels especially true for the manufacturing/NBFC world you're building in. curious, how's the build going with Finoscale?"
 Why it works: the bridge ("feels especially true for the manufacturing/NBFC world you're building in") is a specific, real claim about Finoscale's world — not a compliment, not filler. The closing question only makes sense because that claim was just made.
 
-Output ONLY the message. No preamble, no quotes, no alternates.`;
-
+Output ONLY the message, or the SKIP line above if there's nothing to build on. No preamble, no quotes, no alternates.`;
 
 async function callClaude(userPrompt, extraSystem) {
   if (!sessionApiKey) {
@@ -249,11 +250,13 @@ function currentUserPrompt() {
 }
 
 function showMessage(message) {
-  msgText.textContent = message;
-  charCount.textContent = message.length + ' characters';
+  const isSkip = message.startsWith('SKIP:');
+  msgText.textContent = isSkip ? message.replace('SKIP:', '').trim() : message;
+  charCount.textContent = isSkip ? 'not enough to work with' : message.length + ' characters';
   resultBox.style.display = 'block';
   copyBtn.textContent = 'Copy message';
   copyBtn.classList.remove('copied');
+  copyBtn.style.display = isSkip ? 'none' : '';
 }
 
 async function runGeneration(extraSystem) {
