@@ -12,17 +12,17 @@
     --wire: #4C7A73;
     --mono: 'IBM Plex Mono', 'SF Mono', Consolas, monospace;
     --display: 'Fraunces', Georgia, serif;
-    --body: 'Inter', -apple-system, sans-serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--ink); color: var(--paper); font-family: var(--body); min-height: 100vh; }
   body { display: flex; justify-content: center; padding: 48px 20px 80px; }
-  .rig { width: 100%; max-width: 620px; }
+  .rig { width: 100%; max-width: 660px; }
   .masthead { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid rgba(242,240,234,0.18); padding-bottom: 18px; margin-bottom: 6px; }
   .wordmark { font-family: var(--display); font-size: 30px; font-weight: 600; letter-spacing: -0.01em; color: var(--paper); margin: 0; }
   .wordmark span { color: var(--signal); }
   .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(242,240,234,0.45); }
-  .sub { font-family: var(--mono); font-size: 12.5px; line-height: 1.6; color: rgba(242,240,234,0.55); margin: 18px 0 28px; max-width: 480px; }
+  .sub { font-family: var(--mono); font-size: 12.5px; line-height: 1.6; color: rgba(242,240,234,0.55); margin: 18px 0 28px; max-width: 520px; }
 
   .keycard {
     background: rgba(242,240,234,0.05);
@@ -71,9 +71,20 @@
   .field { margin-bottom: 20px; }
   .field label { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(242,240,234,0.5); margin-bottom: 8px; }
   .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  input[type="text"], textarea { width: 100%; background: rgba(242,240,234,0.05); border: 1px solid rgba(242,240,234,0.2); border-radius: 3px; color: var(--paper); font-family: var(--body); font-size: 15px; padding: 12px 14px; transition: border-color 0.15s ease, background 0.15s ease; }
-  input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--signal); background: rgba(242,240,234,0.08); }
-  textarea { min-height: 108px; resize: vertical; line-height: 1.5; }
+  input[type="text"], textarea, select {
+    width: 100%;
+    background: rgba(242,240,234,0.05);
+    border: 1px solid rgba(242,240,234,0.2);
+    border-radius: 3px;
+    color: var(--paper);
+    font-family: var(--body);
+    font-size: 15px;
+    padding: 12px 14px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  select { appearance: none; cursor: pointer; }
+  input[type="text"]:focus, textarea:focus, select:focus { outline: none; border-color: var(--signal); background: rgba(242,240,234,0.08); }
+  textarea { min-height: 122px; resize: vertical; line-height: 1.5; }
   .hint { font-family: var(--mono); font-size: 11px; color: rgba(242,240,234,0.35); margin-top: 7px; line-height: 1.5; }
   .go { width: 100%; background: var(--signal); color: var(--ink); border: none; border-radius: 3px; font-family: var(--body); font-weight: 600; font-size: 15px; padding: 14px 18px; cursor: pointer; margin-top: 8px; transition: background 0.15s ease, transform 0.1s ease; display: flex; align-items: center; justify-content: center; gap: 10px; }
   .go:hover { background: #f08040; }
@@ -103,7 +114,7 @@
     <p class="wordmark">hook<span>.</span></p>
     <p class="tag">opener writer</p>
   </div>
-  <p class="sub">Paste the one thing on their profile you actually noticed. Get back one message, written to sound like you read it — not like you're prospecting them.</p>
+  <p class="sub">Paste the strongest clue from their profile. Get one LinkedIn DM that sounds human, starts a conversation, and asks a question you can actually use later.</p>
 
   <div class="keycard">
     <p class="kc-label">API key</p>
@@ -111,31 +122,53 @@
       <input type="password" id="apiKey" placeholder="sk-ant-...">
       <span class="kc-status unset" id="kcStatus">not set</span>
     </div>
-    <p class="kc-note">Stored only in this browser tab's memory for this session — never saved, never sent anywhere except directly to api.anthropic.com. You'll need to re-enter it if you reload the page. Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com/settings/keys</a>.</p>
+    <p class="kc-note">Stored only in this browser tab's memory for this session. Never saved. Sent only to api.anthropic.com. You'll need to re-enter it if you reload the page. Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com/settings/keys</a>.</p>
   </div>
 
   <div class="field">
     <div class="row2">
       <div>
         <label for="fname">First name</label>
-        <input type="text" id="fname" placeholder="Vamsi">
+        <input type="text" id="fname" placeholder="Rimi">
       </div>
       <div>
         <label for="company">Company</label>
-        <input type="text" id="company" placeholder="Finoscale">
+        <input type="text" id="company" placeholder="Stealth">
       </div>
     </div>
   </div>
+
+  <div class="field">
+    <label for="companyContext">Company context</label>
+    <input type="text" id="companyContext" placeholder="Seed-stage founder, AI tool, fintech startup, hiring, fundraising, pre-launch, etc.">
+    <p class="hint">Optional, but useful. Add what they build, stage, customer type, funding, launch, hiring, or anything that helps the question point somewhere useful.</p>
+  </div>
+
+  <div class="field">
+    <label for="goal">Question should help me learn</label>
+    <select id="goal">
+      <option value="auto">Auto: pick the most useful stage / traction / ops question</option>
+      <option value="stage">Stage: pre-launch, launched, scaling, fundraising</option>
+      <option value="customers">Customers: early users, revenue, demand, selling</option>
+      <option value="funding">Funding: raise timing, runway, investor motion</option>
+      <option value="ops">Ops: team setup, founder-led work, systems, complexity</option>
+      <option value="banking">Banking path: setup / payments / cards / money movement, without pitching Mercury</option>
+    </select>
+  </div>
+
   <div class="field">
     <label for="snippet">What you noticed</label>
-    <textarea id="snippet" placeholder="Paste their recent post, article, About section, or a comment — pick the thing with an actual point of view, not just whatever's most recent."></textarea>
-    <p class="hint">Pick substance over cadence. A throwaway or joke post gives the model nothing real to connect to their company — an article, opinion piece, or a specific claim in their About section works much better.</p>
+    <textarea id="snippet" placeholder="Paste their recent post, headline, About section, article, funding note, hiring signal, or anything specific you noticed."></textarea>
+    <p class="hint">Best inputs: a specific profile line, company description, post with a point of view, launch/funding/hiring signal, or About section. Avoid random personal posts unless they connect to the business.</p>
   </div>
+
   <button class="go" id="goBtn">
     <span class="dot"></span>
     <span id="goLabel">Write the opener</span>
   </button>
+
   <div class="error" id="errBox"></div>
+
   <div class="result" id="result">
     <div class="result-label">
       <span class="l">Ready to send</span>
@@ -147,14 +180,17 @@
     <div class="actions">
       <button class="btn2" id="copyBtn">Copy message</button>
       <button class="btn2" id="retryBtn">Try again</button>
-      <button class="btn2" id="casualBtn">Even more casual</button>
+      <button class="btn2" id="simpleBtn">Simpler</button>
+      <button class="btn2" id="usefulBtn">More useful question</button>
     </div>
   </div>
+
   <footer>
-    the bridge sentence is what makes the question make sense — no bridge, no message.<br>
-    your API key stays in this tab only. nothing here is stored on any server.
+    good opener = specific clue + simple bridge + useful question.<br>
+    do not pitch mercury in the first dm. learn something useful first.
   </footer>
 </div>
+
 <script>
 const apiKeyInput = document.getElementById('apiKey');
 const kcStatus = document.getElementById('kcStatus');
@@ -166,9 +202,9 @@ const msgText = document.getElementById('msgText');
 const charCount = document.getElementById('charCount');
 const copyBtn = document.getElementById('copyBtn');
 const retryBtn = document.getElementById('retryBtn');
-const casualBtn = document.getElementById('casualBtn');
+const simpleBtn = document.getElementById('simpleBtn');
+const usefulBtn = document.getElementById('usefulBtn');
 
-// In-memory only for this tab/session. Never persisted, never sent anywhere but api.anthropic.com.
 let sessionApiKey = '';
 
 apiKeyInput.addEventListener('input', () => {
@@ -184,110 +220,152 @@ apiKeyInput.addEventListener('input', () => {
   }
 });
 
-const SYSTEM_PROMPT = `You write the FIRST LinkedIn message a sales rep sends to a founder after they accept a connection request.
+const SYSTEM_PROMPT = `You write the FIRST LinkedIn DM a sales rep sends to a founder after they accept a connection request.
 
-The rep is an SDR at Mercury, a modern banking platform for startups. The recipient is a startup founder or startup operator who fits Mercury's ICP.
+The rep is an SDR at Mercury, a modern banking platform for startups.
+The recipient is a startup founder, operator, or startup-adjacent person who fits Mercury's ICP.
 
 The goal is NOT to pitch Mercury in the first message.
 The goal is to start a real conversation that can later move toward banking if there is a fit.
 
-This means the question at the end cannot just be interesting.
-It has to be useful.
+This means the final question cannot just be interesting.
+It has to be useful for the rep.
 
-A good question should help the rep learn something that could later connect to Mercury, such as:
+A useful question helps the rep learn one of these things:
 - what stage the company is at
-- whether they are pre-launch, launched, fundraising, hiring, or scaling
-- whether they are working with customers yet
-- how they are handling founder ops
-- whether banking, payments, cards, runway, expenses, or financial setup may matter soon
-- what current company priority is creating operational complexity
+- whether they are pre-launch, launched, selling, fundraising, hiring, or scaling
+- whether they already have customers or revenue
+- whether the work is still founder-led or getting more operational
+- whether money movement, customer payments, cards, spend, runway, payroll, or financial setup may matter soon
+- what current company priority is creating complexity
 
-Do not ask abstract founder-story questions like:
+Do not mention Mercury.
+Do not pitch banking directly.
+Do not ask for a meeting.
+Do not ask a question that only gives founder backstory.
+
+BAD questions:
 - what inspired you to build this?
-- what moment made you decide to start this?
-- what made you focus on this space?
+- what moment made you decide to focus on this?
 - what has the journey been like?
+- why this space?
+- what did your past teach you about this?
+- what are your thoughts?
+- would you be open to chatting?
 
-Those are warm, but they do not help the rep move the conversation anywhere.
+GOOD question types:
+- are you still mostly building quietly, or already working with customers?
+- is the focus right now more on product, customers, or fundraising?
+- are most of your customers pre-launch, or already selling?
+- is this still founder-led, or are you starting to put more systems around it?
+- are you seeing this more with pre-seed teams, or later seed / series a founders?
+- is the next push more about launch, hiring, or getting the first customers in?
+- have you already set up the basics around payments and spend, or is that still ahead of you?
 
 MESSAGE STRUCTURE
 
 Write 2 short sentences.
 
 Sentence 1: Notice something specific.
-Use simple words. Mention the exact phrase, post, article, or company signal that stood out.
-Do not compliment too much. Do not say "great post" or "loved this."
+Start with the specific thing because the first few words show in the LinkedIn preview.
+Use the exact phrase, post, company signal, or profile clue that stood out.
+Keep it plain. Do not over-compliment.
 
 Sentence 2: Ask a simple, useful question.
-The question should feel natural based on the thing you noticed, but it should also reveal company stage, current priorities, or operational setup.
+The question should feel natural based on what you noticed, but it should also reveal stage, traction, current priority, or setup.
 
-The best questions feel like:
-- how are you thinking about that as you build?
-- is most of the focus right now on product, customers, or fundraising?
-- are you still early/building quietly, or already working with customers?
-- is the company still mostly founder-led, or are you starting to put more ops around it?
-- are you seeing that more with pre-seed teams or later-stage founders?
-- is the focus right now more on getting known, getting customers, or raising?
+STYLE
 
-Tone:
-Casual, plainspoken, and easy to answer.
-Like a normal LinkedIn DM, not a cold email.
-Use lowercase if it feels natural.
-No jargon unless the prospect used it first.
+Use very simple wording.
+Write like a normal person typing a quick LinkedIn message.
+Keep it easy to answer from a phone.
 No clever phrasing.
-No long sentences.
+No big words unless the prospect used them first.
+No long winding sentences.
 No em dashes.
 No emoji.
 No exclamation points.
+Lowercase is okay if it feels natural.
 
-Banned phrases:
-great to connect, hope you're well, would love, excited, thrilled, resonate, insightful, pick your brain, jump on a call, book time, help, support your growth, checking in, just following up, thoughts, curious to hear your thoughts.
+LENGTH
 
-Important:
-The first 3-6 words matter most because they show in the LinkedIn preview. Start with the specific thing, not filler.
+Under 300 characters if possible.
+Never over 360 characters.
 
-If the pasted content is extremely thin, still try to write a usable opener by using the company context, headline, About section, role, stage, or recent activity.
+BANNED PHRASES
 
-Only SKIP if there is truly no business-relevant information at all.
+great to connect, hope you're well, would love, excited, thrilled, resonate, insightful, pick your brain, jump on a call, book time, help, support your growth, checking in, just following up, thoughts, curious to hear your thoughts, how's the build going, cool stuff
 
-Do NOT skip just because the content is personal, casual, broad, or not perfectly connected to banking. In those cases, use the profile headline, company description, About section, or founder stage to ask a simple stage/ops question.
+SKIP RULE
 
-If you must skip, write exactly:
+Your default should be to write a message.
+Only skip if there is truly no usable business context at all.
+
+Do not skip just because the pasted content is personal, casual, broad, or not directly about banking.
+If the post itself is weak, use another available signal such as:
+- headline
+- company description
+- founder stage
+- About section
+- hiring/funding/customer signal
+- what kind of founders or customers they serve
+
+Only if there is truly nothing usable, output exactly:
 SKIP: need a little more company or founder context to write a useful question.
 
-Do not mention Mercury.
-Do not pitch banking.
-Do not ask for a meeting.
-Do not write more than 300 characters.
+FINAL CHECK BEFORE OUTPUT
 
-Output ONLY the message or the SKIP line. No explanation.`;
-  
+Before finalizing, ask yourself:
+1. Is the wording simple enough for someone to understand quickly?
+2. Does the question give the rep information they can use later?
+3. Could the answer naturally lead to a banking, funding, spend, runway, payments, or ops conversation later?
+4. Does it avoid pitching Mercury?
+
+If the answer to #2 or #3 is no, rewrite the question.
+
+Output ONLY the message or the SKIP line. No preamble. No quotes. No alternates.`;
+
+function selectedGoalInstruction(goal) {
+  const map = {
+    auto: 'Pick the question that gives the rep the most useful information for a later banking conversation. Prefer stage, traction, fundraising, or operational setup.',
+    stage: 'Make the question reveal stage: pre-launch, launched, selling, scaling, fundraising, or hiring.',
+    customers: 'Make the question reveal traction: customers, users, revenue, demand, or whether they are already selling.',
+    funding: 'Make the question reveal funding motion: raise timing, runway focus, investor conversations, or whether funding is a current priority. Do not pitch banking.',
+    ops: 'Make the question reveal operational complexity: founder-led work, team setup, systems, spend, cards, payments, or financial admin. Do not pitch banking.',
+    banking: 'Make the question reveal whether startup financial setup may matter soon: banking basics, payments, cards, spend, money movement, runway, or operating setup. Do not mention Mercury and do not make it sound like a pitch.'
+  };
+  return map[goal] || map.auto;
+}
+
 async function callClaude(userPrompt, extraSystem) {
   if (!sessionApiKey) {
     throw new Error('NO_KEY');
   }
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      "x-api-key": sessionApiKey,
-      "anthropic-version": "2023-06-01",
-      "anthropic-dangerous-direct-browser-access": "true"
+      'Content-Type': 'application/json',
+      'x-api-key': sessionApiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
     },
     body: JSON.stringify({
-      model: "claude-sonnet-4-6",
-      max_tokens: 1000,
-      system: SYSTEM_PROMPT + (extraSystem || ""),
-      messages: [{ role: "user", content: userPrompt }]
+      model: 'claude-sonnet-4-6',
+      max_tokens: 500,
+      system: SYSTEM_PROMPT + (extraSystem || ''),
+      messages: [{ role: 'user', content: userPrompt }]
     })
   });
+
   if (!response.ok) {
     const errText = await response.text().catch(() => '');
-    throw new Error("API_ERROR:" + response.status + ":" + errText);
+    throw new Error('API_ERROR:' + response.status + ':' + errText);
   }
+
   const data = await response.json();
-  const textBlocks = data.content.filter(b => b.type === "text").map(b => b.text);
-  let message = textBlocks.join("\n").trim();
+  const textBlocks = data.content.filter(b => b.type === 'text').map(b => b.text);
+  let message = textBlocks.join('\n').trim();
   message = message.replace(/^["“]/, '').replace(/["”]$/, '').trim();
   return message;
 }
@@ -295,14 +373,19 @@ async function callClaude(userPrompt, extraSystem) {
 function currentUserPrompt() {
   const fname = document.getElementById('fname').value.trim();
   const company = document.getElementById('company').value.trim();
+  const companyContext = document.getElementById('companyContext').value.trim();
   const snippet = document.getElementById('snippet').value.trim();
-  return { fname, company, snippet, prompt: `First name: ${fname}\nCompany: ${company}\nWhat I noticed on their profile: ${snippet}` };
+  const goal = document.getElementById('goal').value;
+
+  const prompt = `First name: ${fname}\nCompany: ${company}\nCompany context: ${companyContext || 'not provided'}\nQuestion goal: ${selectedGoalInstruction(goal)}\nWhat I noticed on their profile: ${snippet}`;
+
+  return { fname, company, companyContext, snippet, goal, prompt };
 }
 
 function showMessage(message) {
   const isSkip = message.startsWith('SKIP:');
   msgText.textContent = isSkip ? message.replace('SKIP:', '').trim() : message;
-  charCount.textContent = isSkip ? 'not enough to work with' : message.length + ' characters';
+  charCount.textContent = isSkip ? 'need more context' : message.length + ' characters';
   resultBox.style.display = 'block';
   copyBtn.textContent = 'Copy message';
   copyBtn.classList.remove('copied');
@@ -318,15 +401,16 @@ async function runGeneration(extraSystem) {
     errBox.style.display = 'block';
     return;
   }
+
   if (!fname || !company || !snippet) {
-    errBox.textContent = 'Fill in a first name, company, and what you noticed on their profile — the message needs all three.';
+    errBox.textContent = 'Fill in a first name, company, and what you noticed. Add company context if you have it.';
     errBox.style.display = 'block';
     return;
   }
 
   goBtn.disabled = true;
   goBtn.classList.add('loading');
-  goLabel.textContent = 'Finding the hook…';
+  goLabel.textContent = 'Finding the useful question...';
   resultBox.style.display = 'none';
 
   try {
@@ -348,15 +432,19 @@ async function runGeneration(extraSystem) {
 
 goBtn.addEventListener('click', () => runGeneration());
 retryBtn.addEventListener('click', () => runGeneration());
-casualBtn.addEventListener('click', () => runGeneration(
-  "\n\nExtra pass: the last draft still read slightly too polished. Rewrite it plainer — shorter words, no clever phrasing, exactly how someone would type a quick DM on their phone. Lowercase the first word if that reads more natural. Cut anything that sounds composed."
-));
+
+simpleBtn.addEventListener('click', () => runGeneration(`\n\nExtra pass: rewrite even simpler. Use shorter words. Make the sentence easier to understand on a phone. Cut any clever wording. Keep the useful business question.`));
+
+usefulBtn.addEventListener('click', () => runGeneration(`\n\nExtra pass: the last question was not useful enough for an SDR. Rewrite the final question so the reply reveals stage, traction, fundraising motion, launch timing, customers, financial setup, payments, spend, runway, or operating complexity. Still do not mention Mercury or pitch banking.`));
 
 copyBtn.addEventListener('click', () => {
   navigator.clipboard.writeText(msgText.textContent).then(() => {
     copyBtn.textContent = 'Copied';
     copyBtn.classList.add('copied');
-    setTimeout(() => { copyBtn.textContent = 'Copy message'; copyBtn.classList.remove('copied'); }, 1600);
+    setTimeout(() => {
+      copyBtn.textContent = 'Copy message';
+      copyBtn.classList.remove('copied');
+    }, 1600);
   });
 });
 
@@ -366,3 +454,4 @@ document.getElementById('snippet').addEventListener('keydown', (e) => {
 </script>
 </body>
 </html>
+
