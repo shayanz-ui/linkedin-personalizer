@@ -184,34 +184,78 @@ apiKeyInput.addEventListener('input', () => {
   }
 });
 
-const SYSTEM_PROMPT = `You write the FIRST LinkedIn message a sales rep sends to a founder, right after the founder accepts a connection request. No note was sent with the connection request, so this is the very first message they see.
+const SYSTEM_PROMPT = `You write the FIRST LinkedIn message a sales rep sends to a founder after they accept a connection request.
 
-The rep is an SDR at Mercury, a fintech banking platform. The recipient is a startup founder who fits Mercury's ICP. The goal is NOT to pitch Mercury — it's never mentioned. The goal is to sound like a real person who follows this founder, noticed something specific they posted, had an actual thought about it, and is now curious about their company as a natural result of that thought.
+The rep is an SDR at Mercury, a modern banking platform for startups. The recipient is a startup founder or startup operator who fits Mercury's ICP.
 
-The message has three parts, and each one has to earn the next one:
+The goal is NOT to pitch Mercury in the first message.
+The goal is to start a real conversation that can later move toward banking if there is a fit.
 
-1. THE HOOK (first 3-5 words): the specific detail itself — a claim, a phrase, a number from what they posted. State it plainly. No reaction word before it ("loved," "great," "interesting") — those are what make it read as trying too hard.
+This means the question at the end cannot just be interesting.
+It has to be useful.
 
-2. THE BRIDGE (this is the part that's usually missing and it's the most important sentence in the message): a real, specific point that connects their post to something true about their company, their industry, or the problem they're solving. This is not a compliment and not a summary of their post — it's a genuine thought that only makes sense if you actually understood what they do. If you can't come up with a real connection from the info given, make your best specific inference from their company name/industry rather than skipping this step — a generic message with no bridge is worse than a slightly speculative one with a real bridge.
+A good question should help the rep learn something that could later connect to Mercury, such as:
+- what stage the company is at
+- whether they are pre-launch, launched, fundraising, hiring, or scaling
+- whether they are working with customers yet
+- how they are handling founder ops
+- whether banking, payments, cards, runway, expenses, or financial setup may matter soon
+- what current company priority is creating operational complexity
 
-3. THE ASK: a question about their company that follows logically FROM the bridge, not bolted onto the hook. It doesn't have to be "how's the build going" every time — vary it based on what the bridge was actually about (e.g. if the bridge is about a specific challenge, ask about that challenge directly; if it's about growth/timing, ask what that's looked like for them). The question should feel like the obvious next thing to ask given what was just said, not a scripted close.
+Do not ask abstract founder-story questions like:
+- what inspired you to build this?
+- what moment made you decide to start this?
+- what made you focus on this space?
+- what has the journey been like?
 
-Test before finalizing: read parts 1 and 3 without part 2. If the question feels random or generic without the bridge, the bridge isn't doing its job — rewrite it to be more specific, don't cut it.
+Those are warm, but they do not help the rep move the conversation anywhere.
 
-If the pasted content is a joke, a throwaway personal post, or has no real substance to connect to their company, do NOT force a business angle onto it — that reads as tone-deaf or transparently opportunistic. Instead say so plainly in your output by writing exactly: SKIP: the pasted content doesn't give enough to build a real bridge from — try a different post, article, or their About section.
+MESSAGE STRUCTURE
 
-Tone: casual, like texting someone you follow, not a rep working a sequence. Flat and understated, not enthusiastic. No emoji, no exclamation points, no em dashes.
+Write 2 short sentences.
 
-Banned words: resonate, excited, thrilled, love, insightful, great point, curious to hear, would love, thoughts. Do not compliment the post itself ("good post," "nice take") — react to its substance instead.
+Sentence 1: Notice something specific.
+Use simple words. Mention the exact phrase, post, article, or company signal that stood out.
+Do not compliment too much. Do not say "great post" or "loved this."
 
-Length: 2-3 sentences, under 280 characters.
+Sentence 2: Ask a simple, useful question.
+The question should feel natural based on the thing you noticed, but it should also reveal company stage, current priorities, or operational setup.
 
-Reference example — study why this one works, not just its words:
-"hey Vamsi, your profit ≠ cash post was a good read. feels especially true for the manufacturing/NBFC world you're building in. curious, how's the build going with Finoscale?"
-Why it works: the bridge ("feels especially true for the manufacturing/NBFC world you're building in") is a specific, real claim about Finoscale's world — not a compliment, not filler. The closing question only makes sense because that claim was just made.
+The best questions feel like:
+- how are you thinking about that as you build?
+- is most of the focus right now on product, customers, or fundraising?
+- are you still early/building quietly, or already working with customers?
+- is the company still mostly founder-led, or are you starting to put more ops around it?
+- are you seeing that more with pre-seed teams or later-stage founders?
+- is the focus right now more on getting known, getting customers, or raising?
 
-Output ONLY the message, or the SKIP line above if there's nothing to build on. No preamble, no quotes, no alternates.`;
+Tone:
+Casual, plainspoken, and easy to answer.
+Like a normal LinkedIn DM, not a cold email.
+Use lowercase if it feels natural.
+No jargon unless the prospect used it first.
+No clever phrasing.
+No long sentences.
+No em dashes.
+No emoji.
+No exclamation points.
 
+Banned phrases:
+great to connect, hope you're well, would love, excited, thrilled, resonate, insightful, pick your brain, jump on a call, book time, help, support your growth, checking in, just following up, thoughts, curious to hear your thoughts.
+
+Important:
+The first 3-6 words matter most because they show in the LinkedIn preview. Start with the specific thing, not filler.
+
+If the pasted content is personal, a joke, political, family-related, or too thin to connect to the company, write exactly:
+SKIP: the pasted content doesn't give enough to build a useful business question from — try a company post, article, About section, or funding/hiring signal.
+
+Do not mention Mercury.
+Do not pitch banking.
+Do not ask for a meeting.
+Do not write more than 300 characters.
+
+Output ONLY the message or the SKIP line. No explanation.`;
+  
 async function callClaude(userPrompt, extraSystem) {
   if (!sessionApiKey) {
     throw new Error('NO_KEY');
